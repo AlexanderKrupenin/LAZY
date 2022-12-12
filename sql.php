@@ -47,22 +47,40 @@
             $result = mysqli_query($mysql, "INSERT OUT_STATE_TABLE SET DEVICE_ID='$id', OUT_STATE='1', DATE_TIME='$date_today'");
         }
    }
-
     //----------------------------------------------------------------------------------------
     
     //------Проверяем данные, полученные от пользователя---------------------
-       
-    /*while ($_POST['button_off'] && $temp == 0) {
-        $temp = $temp -35;
+    if ($_POST['button_on'.$id.'']) {
+        $temp = $temperature + 4;
+        if ($temp > $id * 50){
+            $temp = $id * 50;
+        }
         $date_today = date("Y-m-d H:i:s");
-        $mysql->query("UPDATE TEMPERATURE_TABLE SET TEMPERATURE='$temp', DATE_TIME='$date_today' WHERE DEVICE_ID = '$id'");
-        
-    }  */
-   //UPDATE COMMAND_TABLE SET COMMAND='1' WHERE DEVICE_ID = '1'
-    if ($_POST['button_on']) {
-        $temp = $temperature;
-        $temp = 16;
-        $date_today = date("Y-m-d H:i:s");
+
+        $result = mysqli_query($mysql, "SELECT COUNT(*) as coun from HYSTORY as h WHERE h.DEVICE_ID = '$id'");
+        $Arr = mysqli_fetch_array($result);
+        $count = $Arr['coun'];
+
+        $mysql->query("DROP TABLE IF EXISTS device_command");
+        $mysql->query("CREATE TEMPORARY TABLE device_command as SELECT * from HYSTORY as h WHERE h.DEVICE_ID = '$id'");
+        $mysql->query("ALTER table device_command add id_i int primary key auto_increment");
+
+
+
+        $result = mysqli_query($mysql, "SELECT dc.out_state as command FROM device_command as dc WHERE dc.id_i = '$count'");
+        $Arr = mysqli_fetch_array($result);
+        $prev_command = $Arr['command'];
+
+        if($prev_command == 0){
+            //запихиваем в таблиц
+            //узнаем id пользователя
+            $result = mysqli_query($mysql, "SELECT DISTINCT h.USER_ID From HYSTORY as h WHERE h.DEVICE_ID = '$id'");
+            $Arr = mysqli_fetch_array($result);
+            $user_id = $Arr['USER_ID'];
+
+            $result = mysqli_query($mysql, "INSERT HYSTORY SET USER_ID = '$user_id', DEVICE_ID = '$id', NAME = '$device_name', OUT_STATE = '1', DATE_TIME = '$date_today'");
+        }
+
         $mysql->query("UPDATE COMMAND_TABLE SET COMMAND='1', DATE_TIME='$date_today' WHERE DEVICE_ID = '$id'");
         $mysql->query("UPDATE TEMPERATURE_TABLE SET TEMPERATURE='$temp', DATE_TIME='$date_today' WHERE DEVICE_ID = '$id'");
         if (mysqli_affected_rows($mysql) != 1) //Если не смогли обновить - значит в таблице просто нет данных о команде для этого устройства
@@ -71,15 +89,49 @@
         }
     }    
 
-    if ($_POST['button_off']) {
+    if ($_POST['button_off'.$id.'']) {
         $date_today = date("Y-m-d H:i:s");
-        $temp = $temperature;
-        $temp = 12;
+        $temp = $temperature - 4;
+        if ($temp < $id * 10){
+            $temp = $id * 10;
+        }
+
+        $result = mysqli_query($mysql, "SELECT COUNT(*) as coun from HYSTORY as h WHERE h.DEVICE_ID = '$id'");
+        $Arr = mysqli_fetch_array($result);
+        $count = $Arr['coun'];
+
+        $mysql->query("DROP TABLE IF EXISTS device_command;");
+        $mysql->query("CREATE TEMPORARY TABLE device_command as 
+        SELECT * from HYSTORY as h WHERE h.DEVICE_ID = '$id';");
+        $mysql->query("ALTER table device_command add id_i int primary key auto_increment;");
+
+
+
+        $result = mysqli_query($mysql, "SELECT dc.out_state as command FROM device_command as dc WHERE dc.id_i = '$count';");
+        $Arr = mysqli_fetch_array($result);
+        $prev_command = $Arr['command'];
+
+        if($prev_command == 1){
+            //запихиваем в таблиц
+            //узнаем id пользователя
+            $result = mysqli_query($mysql, "SELECT DISTINCT h.USER_ID From HYSTORY as h WHERE h.DEVICE_ID = '$id';");
+            $Arr = mysqli_fetch_array($result);
+            $user_id = $Arr['USER_ID'];
+
+            $result = mysqli_query($mysql, "INSERT HYSTORY SET USER_ID = '$user_id', DEVICE_ID = '$id', NAME = '$device_name', OUT_STATE = '0', DATE_TIME = '$date_today'");
+        }
+
+
+
         $result = mysqli_query($mysql, "UPDATE COMMAND_TABLE SET COMMAND='0', DATE_TIME='$date_today' WHERE DEVICE_ID = '$id'");
         $mysql->query("UPDATE TEMPERATURE_TABLE SET TEMPERATURE='$temp', DATE_TIME='$date_today' WHERE DEVICE_ID = '$id'");
         if (mysqli_affected_rows($mysql) != 1) //Если не смогли обновить - значит в таблице просто нет данных о команде для этого устройства
         { //вставляем в таблицу строчку с данными о команде для устройства
             $result = mysqli_query($mysql, "INSERT COMMAND_TABLE SET DEVICE_ID='$id', COMMAND='0', DATE_TIME='$date_today'");
         }
+    }
+
+    if ($_POST['button_pr'.$id.'']) {
+        Header("Location:history.php?id=$id");
     }
     ?>
