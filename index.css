@@ -67,3 +67,20 @@
     width: 40%;
     height: 40%;
   }
+
+  .div_aut{
+    color: rgb(39, 39, 39);
+    font-size: 20px;
+    font-family: Nunito;
+    text-decoration: none;
+    border: 2px solid rgb(39, 39, 39);
+    border-radius: 20px;
+    transition-duration: .2s;
+    -webkit-transition-duration: .2s;
+    -moz-transition-duration: .2s;
+    background-color:rgb(255, 255, 255);
+    padding: 4px 30px;
+    border-color: rgb(39, 39, 39);
+    width: 40%;
+    height: 40%;
+  }
