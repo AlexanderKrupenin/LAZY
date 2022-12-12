@@ -4,21 +4,37 @@ $id = $_GET['id'];
 $sql = "SELECT * FROM `HYSTORY` WHERE DEVICE_ID = '$id'";
 if($result = $mysql->query($sql)){
     $rowsCount = $result->num_rows; // количество полученных строк
-    echo "<p>Получено объектов: $rowsCount</p>";
-    echo "<table><tr><th>USER_ID</th><th>DEVICE_ID</th><th>NAME</th><th>OUT_STATE</th><th>DATE_TIME</th></tr>";
+    echo '
+    
+    <!DOCTYPE HTML>
+    <html>
+    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>MyApp</title>
+    <script src="UpdateScript.js"> </script>
+    <script src="update_counter.js"> </script>
+    <link rel="manifest" href = "site.webmanifest">
+    <link rel="stylesheet" href = "index.css">
+    </head>
+    <body>
+    <div class = "div_history">
+    <p>Получено объектов: '.$rowsCount.'</p>';
+    echo '<table><tr><th>USER_ID</th><th>DEVICE_ID</th><th>NAME</th><th>OUT_STATE</th><th>DATE_TIME</th></tr>';
     foreach($result as $row){
-        echo "<tr>";
-            echo "<td>" . $row["USER_ID"] . "</td>";
-            echo "<td>" . $row["DEVICE_ID"] . "</td>";
-            echo "<td>" . $row["NAME"] . "</td>";
-            echo "<td>" . $row["OUT_STATE"] . "</td>";
-            echo "<td>" . $row["DATE_TIME"] . "</td>";
-        echo "</tr>";
+        echo '<tr>';
+            echo '<td>' . $row["USER_ID"] . '</td>';
+            echo '<td>' . $row["DEVICE_ID"] . '</td>';
+            echo '<td>' . $row["NAME"] . '</td>';
+            echo '<td>' . $row["OUT_STATE"] . '</td>';
+            echo '<td>' . $row["DATE_TIME"] . '</td>';
+        echo '</tr>';
     }
-    echo "</table>";
+    echo '</table>';
     $result->free();
 }
 echo'<form method=POST action = "index.php">
-<button formmethod=POST name=1 value=1>Назад</button>
-</form><br>';
+<button formmethod=POST name=1 value=1 class = "button_main"">Назад</button>
+</form><br></div>';
+echo'
+    </body>
+    </html>';
 ?>

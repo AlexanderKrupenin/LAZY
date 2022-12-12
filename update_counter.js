@@ -15,7 +15,7 @@ if(i>1){d0=parseInt(window.name.split(",")[1])}
 if(isNaN(i)||isNaN(d0)){i=1;d0=d;}
 //alert(window.name.split(",")[1])
 if( i >=N_max){
-if(d-d0<= (TimeMin/N_max)*i){alert('Хорош обновлять страницу!!!');window.name='';window.location="http://lazy:3006/wait.php"}
+if(d-d0<= (TimeMin/N_max)*i){alert('Вы заблокированы!');window.name='';window.location="http://lazy:3006/wait.php"}
     Header("Location:lazy:3006/wait.php");
     window.name='';d0=d;i=1;
 }

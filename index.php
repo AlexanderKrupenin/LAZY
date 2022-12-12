@@ -19,6 +19,8 @@ echo'
     <title>MyApp</title>
     <script src="UpdateScript.js"> </script>
     <script src="update_counter.js"> </script>
+    <link rel="manifest" href = "site.webmanifest">
+    <link rel="stylesheet" href = "index.css">
     </head>
     <body>';
     
@@ -34,7 +36,7 @@ echo'
         
         include "sql.php";
         echo'
-        <p>'.$i.'</p>
+        <p >'.$i.'</p>
         ';
         $date_minuta = date("Y-m-d H:i");
         $result = mysqli_query($mysql, "SELECT count(*) as coun from HYSTORY as h where h.DATE_TIME LIKE('$date_minuta%') and h.DEVICE_ID = '$i';");
@@ -51,18 +53,18 @@ echo'
             echo'Вы много раз обращались к этому устройству.<br>
             Рекомендация: отдых от 1 минуты<br>';
         }else{
-        echo'
-        <table>
+        echo' <div class = "div_main">
+        <table class = "table_main">
         <tr>
         <td width=100px> Устройство:
         </td>
-        <td width=40px>'.$device_name.'
+        <td width=238px>'.$device_name.'
         </td>
         </tr>
-        </table>
-        <table border=1>
+        </table class = "table_main">
+        <table border=1 class = "table_main">
         <tr>
-        <td width=100px> Tемпература
+        <td width=100px> Tемпературавыа
         </td>
         <td width=40px>'.$temperature.'
         </td>
@@ -70,29 +72,29 @@ echo'
         </td>
         </tr>
         <tr>
-        <td width=100px> Реле
+        <td width=100px > Реле
         </td>
         <td width=40px>'.$out_state.'
         </td>
         <td width=150px>'.$out_state_dt.'
         </td>
         </tr>
-        </table>
+        </table><br>
         ';
         if($out_state == 0){
-            echo'<form method=POST>
-            <button formmethod=POST name=button_on'.$id.' value=1>Включить реле</button>
-            </form>';
+            echo'<form method=POST > 
+            <button class = "button_main" formmethod=POST name=button_on'.$id.' value=1>Включить реле</button>
+            </form><br>';
         }else{
             echo'<form method=POST>
-            <button formmethod=POST name=button_off'.$id.' value=1>Выключить реле</button>
-            </form>';
+            <button class = "button_main" formmethod=POST name=button_off'.$id.' value=1>Выключить реле</button>
+            </form><br>';
         }
         echo'
         <form method=POST>
-    <button formmethod=POST name=button_pr'.$id.' value=1>История</button>
+    <button class = "button_main" formmethod=POST name=button_pr'.$id.' value=1>История</button></div>
     </form><br>
-        ';
+    </div >';
         /*
         Текущая минута: '.$date_minuta.'<br>
         Кол-во кликов от юзера: '.$count_click_user.'<br>
