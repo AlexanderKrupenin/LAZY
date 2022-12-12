@@ -25,17 +25,19 @@ echo '
   </body>
   </html>';
   ?>
- <?php
+<?php
  $name = $_POST['name'];
  $password = $_POST['password'];
  echo '<div>' . $name . '</div>';
  echo '<div>' . $password . '</div>';
- $io = 'ID';
- $result = mysqli_query($mysql, "SELECT '$io' FROM `USER_TABLE` WHERE USER_NAME ='$name' AND PASSWORD = '$password'");
- if (mysqli_num_rows($result) != "") { //Если в БД есть данные о температуре для этого устройства
-    echo '<div>' . mysqli_num_rows($result) . '</div>';
-     $id_user = mysqli_num_rows($result);
-     echo '<div>' . $id_user . '</div>';
-     Header("Location:main.php?id=$id_user");
- }
+ $result = mysqli_query($mysql, "SELECT ID FROM `USER_TABLE` WHERE USER_NAME ='$name' AND PASSWORD = '$password'");
+        while($name = mysqli_fetch_assoc($result)){
+           ?>
+<?php echo $name['ID'];
+ echo $id = $name['ID']?>
+<?php
+Header("Location:main.php?id=$id");
+?>
+<?php
+}
  ?>
