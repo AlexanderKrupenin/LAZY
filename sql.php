@@ -57,12 +57,12 @@
         }
         $date_today = date("Y-m-d H:i:s");
 
-        $result = mysqli_query($mysql, "SELECT COUNT(*) as coun from HYSTORY as h WHERE h.DEVICE_ID = '$id'");
+        $result = mysqli_query($mysql, "SELECT COUNT(*) as coun from HISTORY_TABLE as h WHERE h.DEVICE_ID = '$id'");
         $Arr = mysqli_fetch_array($result);
         $count = $Arr['coun'];
 
         $mysql->query("DROP TABLE IF EXISTS device_command");
-        $mysql->query("CREATE TEMPORARY TABLE device_command as SELECT * from HYSTORY as h WHERE h.DEVICE_ID = '$id'");
+        $mysql->query("CREATE TEMPORARY TABLE device_command as SELECT * from HISTORY_TABLE as h WHERE h.DEVICE_ID = '$id'");
         $mysql->query("ALTER table device_command add id_i int primary key auto_increment");
 
 
@@ -74,11 +74,11 @@
         if($prev_command == 0){
             //запихиваем в таблиц
             //узнаем id пользователя
-            $result = mysqli_query($mysql, "SELECT DISTINCT h.USER_ID From HYSTORY as h WHERE h.DEVICE_ID = '$id'");
+            $result = mysqli_query($mysql, "SELECT DISTINCT h.USER_ID From HISTORY_TABLE as h WHERE h.DEVICE_ID = '$id'");
             $Arr = mysqli_fetch_array($result);
             $user_id = $Arr['USER_ID'];
 
-            $result = mysqli_query($mysql, "INSERT HYSTORY SET USER_ID = '$user_id', DEVICE_ID = '$id', NAME = '$device_name', OUT_STATE = '1', DATE_TIME = '$date_today'");
+            $result = mysqli_query($mysql, "INSERT HISTORY_TABLE SET USER_ID = '$user_id', DEVICE_ID = '$id', NAME = '$device_name', OUT_STATE = '1', DATE_TIME = '$date_today'");
         }
 
         $mysql->query("UPDATE COMMAND_TABLE SET COMMAND='1', DATE_TIME='$date_today' WHERE DEVICE_ID = '$id'");
@@ -96,13 +96,13 @@
             $temp = $id * 10;
         }
 
-        $result = mysqli_query($mysql, "SELECT COUNT(*) as coun from HYSTORY as h WHERE h.DEVICE_ID = '$id'");
+        $result = mysqli_query($mysql, "SELECT COUNT(*) as coun from HISTORY_TABLE as h WHERE h.DEVICE_ID = '$id'");
         $Arr = mysqli_fetch_array($result);
         $count = $Arr['coun'];
 
         $mysql->query("DROP TABLE IF EXISTS device_command;");
         $mysql->query("CREATE TEMPORARY TABLE device_command as 
-        SELECT * from HYSTORY as h WHERE h.DEVICE_ID = '$id';");
+        SELECT * from HISTORY_TABLE as h WHERE h.DEVICE_ID = '$id';");
         $mysql->query("ALTER table device_command add id_i int primary key auto_increment;");
 
 
@@ -114,11 +114,11 @@
         if($prev_command == 1){
             //запихиваем в таблиц
             //узнаем id пользователя
-            $result = mysqli_query($mysql, "SELECT DISTINCT h.USER_ID From HYSTORY as h WHERE h.DEVICE_ID = '$id';");
+            $result = mysqli_query($mysql, "SELECT DISTINCT h.USER_ID From HISTORY_TABLE as h WHERE h.DEVICE_ID = '$id';");
             $Arr = mysqli_fetch_array($result);
             $user_id = $Arr['USER_ID'];
 
-            $result = mysqli_query($mysql, "INSERT HYSTORY SET USER_ID = '$user_id', DEVICE_ID = '$id', NAME = '$device_name', OUT_STATE = '0', DATE_TIME = '$date_today'");
+            $result = mysqli_query($mysql, "INSERT HISTORY_TABLE SET USER_ID = '$user_id', DEVICE_ID = '$id', NAME = '$device_name', OUT_STATE = '0', DATE_TIME = '$date_today'");
         }
 
 

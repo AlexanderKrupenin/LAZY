@@ -1,7 +1,18 @@
 <?php
 include "db.php";
 $id = $_GET['id'];
-$sql = "SELECT * FROM `HYSTORY` WHERE DEVICE_ID = '$id'";
+$sql = "SELECT * FROM `HISTORY_TABLE` WHERE DEVICE_ID = '$id'";
+?>
+<?php
+ $sql_user = mysqli_query($mysql, "SELECT USER_ID FROM `DEVICE_TABLE` WHERE DEVICE_ID = '$id'");
+        if($name = mysqli_fetch_assoc($sql_user)){
+           ?>
+<?php   $name['USER_ID'];
+$sql_id_user = $name['USER_ID']?>
+<?php
+}
+ ?><?php
+
 if($result = $mysql->query($sql)){
     $rowsCount = $result->num_rows; // количество полученных строк
     echo '
@@ -31,7 +42,7 @@ if($result = $mysql->query($sql)){
     echo '</table>';
     $result->free();
 }
-echo'<form method=POST action = "index.php">
+echo'<form method=POST action = "http://lazy:3006/main.php?id='.$sql_id_user.'">
 <button formmethod=POST name=1 value=1 class = "button_main"">Назад</button>
 </form><br></div>';
 echo'

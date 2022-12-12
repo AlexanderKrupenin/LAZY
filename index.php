@@ -14,7 +14,7 @@ echo '
     <header>
     </header>';
  echo'
-    <div class= "div_history">
+    <div class= "div_aut">
     <form action="http://lazy:3006/index.php" method="post">
     <p>Логин: <input type="text" name="name" /></p>
     <p>Пароль: <input type="text" name="password" /></p>
@@ -28,13 +28,11 @@ echo '
 <?php
  $name = $_POST['name'];
  $password = $_POST['password'];
- echo '<div>' . $name . '</div>';
- echo '<div>' . $password . '</div>';
  $result = mysqli_query($mysql, "SELECT ID FROM `USER_TABLE` WHERE USER_NAME ='$name' AND PASSWORD = '$password'");
-        while($name = mysqli_fetch_assoc($result)){
+        if($name = mysqli_fetch_assoc($result)){
            ?>
-<?php echo $name['ID'];
- echo $id = $name['ID']?>
+<?php  $name['ID'];
+ $id = $name['ID']?>
 <?php
 Header("Location:main.php?id=$id");
 ?>

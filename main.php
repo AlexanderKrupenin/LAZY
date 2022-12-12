@@ -39,7 +39,7 @@ echo'
         <p >'.$i.'</p>
         ';
         $date_minuta = date("Y-m-d H:i");
-        $result = mysqli_query($mysql, "SELECT count(*) as coun from HYSTORY as h where h.DATE_TIME LIKE('$date_minuta%') and h.DEVICE_ID = '$i';");
+        $result = mysqli_query($mysql, "SELECT count(*) as coun from HISTORY_TABLE as h where h.DATE_TIME LIKE('$date_minuta%') and h.DEVICE_ID = '$i';");
         $Arr = mysqli_fetch_array($result);
         $count_click_user = $Arr['coun'];
         /*
