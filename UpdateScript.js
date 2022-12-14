@@ -1,7 +1,7 @@
 setInterval(() => {
   //отправляем запрос на сервер
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", "index.php", true);
+  xhr.open("GET", "http://lazy:3006/main.php?id=1", true);
   xhr.send();
 
   //функция для обработки данных, полученных от сервера
@@ -23,3 +23,5 @@ setInterval(() => {
   };
   delete xhr;
 }, 10000); //выполняем обновление каждые 3 секунды
+
+//файл отлючен
